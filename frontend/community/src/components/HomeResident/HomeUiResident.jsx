@@ -11,7 +11,7 @@ import Parking from './ParkingResident';
 import { Calendar, Cog, AlertCircle, Bell, Pen, Phone, FileText, LogOut, ParkingSquare, LayoutDashboard, User, Search } from 'lucide-react';
 import { fetchEvents, createEvent, updateEvent, deleteEvent } from './ServiceResident/apiResident.js';
 
-import RazorpayPayment from './RazorpayPayment'; // Adjust the path as needed
+import RazorpayPayment from './PaymentPage.jsx'; // Adjust the path as needed
 
 import logo from "./assets/Natural Care Logo.jpg";
 // CSS styles
@@ -1355,20 +1355,18 @@ useEffect(() => {
       <div className="paid-badge">Paid</div>
     ) : (
       <RazorpayPayment
-        amount={bill.amount}
-        description={`Payment for ${bill.type}`}
-        billId={bill.id}
-        residentId={userData.id}
-        onSuccess={(response, billId) => {
-          setBills(prevBills => 
-            prevBills.map(bill => 
-              bill.id === billId ? { ...bill, paid: true } : bill
-            )
-          );
-          setPaymentSuccess(true);
-        }}
-        onClose={() => setSelectedBill(null)}
-      />
+  amount={bill.amount}
+  description={`Payment for ${bill.type}`}
+  billId={bill.id}
+  residentId={userData.id}
+  onSuccess={(response, billId) => {
+    // Handle successful payment
+    setBills(prev => prev.map(b => 
+      b.id === billId ? {...b, paid: true} : b
+    ));
+  }}
+  onClose={() => console.log('Payment closed')}
+/>
     )}
   </div>
 ))}

@@ -1,4 +1,4 @@
-package com.example;
+package com.example.demo;
 
 import com.example.controller.PaymentController;
 import com.example.model.Payment;

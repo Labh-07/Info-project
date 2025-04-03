@@ -1,323 +1,394 @@
-/* Notice Container */
+/* Notice Container - Modern Card Layout */
 .notice-container {
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  }
-  
-  .notice-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 30px;
-    padding-bottom: 15px;
-    border-bottom: 1px solid #eee;
-  }
-  
-  .notice-header h1 {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 28px;
-    color: #333;
-    margin: 0;
-  }
-  
-  .add-notice-btn {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 10px 20px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: 500;
-    font-size: 16px;
-    transition: background-color 0.2s;
-  }
-  
-  .add-notice-btn:hover {
-    background-color: #3e8e41;
-  }
-  
-  /* Notice Content */
-  .notice-content {
-    width: 100%;
-  }
-  
-  .notice-content h2 {
-    font-size: 22px;
-    color: #444;
-    margin-bottom: 20px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid #eee;
-  }
-  
-  .notice-list {
-    display: grid;
-    gap: 20px;
-  }
-  
-  /* Notice Card */
-  .notice-card {
-    background: white;
-    border-radius: 8px;
-    padding: 20px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    transition: transform 0.2s, box-shadow 0.2s;
-  }
-  
-  .notice-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-  }
-  
-  .notice-meta {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 10px;
-    font-size: 14px;
-    color: #666;
-  }
-  
-  .notice-date {
-    font-weight: 500;
-  }
-  
-  .notice-author {
-    color: #4CAF50;
-    font-weight: 600;
-  }
-  
-  .notice-title {
-    font-size: 18px;
-    font-weight: 600;
-    color: #333;
-    margin-bottom: 10px;
-  }
-  
-  .notice-content-text {
-    color: #555;
-    line-height: 1.6;
-    margin-bottom: 10px;
-  }
-  
-  .notice-important {
-    display: inline-block;
-    padding: 3px 8px;
-    background-color: #ffeb3b;
-    color: #333;
-    font-size: 12px;
-    font-weight: 600;
-    border-radius: 4px;
-  }
-  
-  /* Modal Styles */
-  .notice-modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0,0,0,0.5);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-  }
-  
-  .modal-content {
-    background-color: white;
-    width: 100%;
-    max-width: 600px;
-    border-radius: 10px;
-    padding: 25px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-  }
-  
-  .modal-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-  }
-  
-  .modal-header h2 {
-    margin: 0;
-    font-size: 24px;
-    color: #333;
-  }
-  
-  .modal-header button {
-    background: none;
-    border: none;
-    font-size: 24px;
-    cursor: pointer;
-    color: #777;
-  }
-  
-  /* Form Styles */
-  .form-group {
-    margin-bottom: 20px;
-  }
-  
-  .form-group label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: 500;
-    color: #555;
-  }
-  
-  .form-group input,
-  .form-group textarea {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    font-size: 16px;
-    font-family: inherit;
-  }
-  
-  .form-group textarea {
-    min-height: 120px;
-  }
-  
-  .react-datetime-picker {
-    width: 100%;
-  }
-  
-  .react-datetime-picker__wrapper {
-    padding: 10px;
-    border-radius: 6px;
-    border: 1px solid #ddd;
-  }
-  
-  .form-checkbox {
-    display: flex;
-    align-items: center;
-    margin: 20px 0;
-  }
-  
-  .form-checkbox input {
-    margin-right: 10px;
-    width: 18px;
-    height: 18px;
-  }
-  
-  .form-actions {
-    display: flex;
-    justify-content: flex-end;
-    gap: 15px;
-  }
-  
-  .btn-cancel {
-    padding: 10px 20px;
-    background-color: #f5f5f5;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    cursor: pointer;
-    color: #333;
-    font-size: 16px;
-    transition: background-color 0.2s;
-  }
-  
-  .btn-cancel:hover {
-    background-color: #e0e0e0;
-  }
-  
-  .btn-submit {
-    padding: 10px 20px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.2s;
-  }
-  
-  .btn-submit:hover {
-    background-color: #3e8e41;
-  }
+  width: 100%;
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
 
-  /* Header styles */
-  .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1.5rem;
-    background-color: white;
-    padding: 1rem;
-    border-radius: 0.5rem;
-    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-    width: 100%;
-    position: sticky;
-    top: 0;
-    z-index: 10;
-  }
-  
-  .header h1 {
-    font-size: 1.5rem;
-    font-weight: 700;
-  }
-  
-  .user-info {
-    display: flex;
-    align-items: center;
-  }
-  
-  .user-info span {
-    margin-right: 1rem;
-  }
-  
-  .user-info svg {
-    height: 1.5rem;
-    width: 1.5rem;
-  }
-  
-  .notice-date , .notice-author , .notice-title ,.notice-content-{
-    margin:10px;
-  }
+/* Header with gradient accent */
+.notice-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  position: relative;
+}
 
-  .notice-card-delete .delete-btn {
-    font-size: 10px;
-    background-color: rgb(165, 54, 54);
-    color:white;
-  }
+.notice-header h1 {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0;
+}
 
-  /*delete styling*/
-  /* Delete button styles */
+.notice-header h1 svg {
+  color: #3b82f6;
+}
+
+/* Add Notice Button - Modern Gradient */
+.add-notice-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0.75rem 1.5rem;
+  background: linear-gradient(135deg, #3b82f6 0%, #322ff7 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 5px rgba(79, 70, 229, 0.2);
+}
+
+.add-notice-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+}
+
+.add-notice-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* Notice List - Grid Layout */
+.notice-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+/* Notice Card - Modern Design */
+.notice-card {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  position: relative;
+  overflow: hidden;
+}
+
+.notice-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  border-color: rgba(79, 70, 229, 0.2);
+}
+
+/* Important Notice Styling */
+.notice-card.important {
+  border-left: 4px solid #ef4444;
+}
+
+.notice-card.important .notice-important {
+  background-color: #fee2e2;
+  color: #ef4444;
+}
+
+/* Notice Meta Information */
+.notice-meta {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  font-size: 0.85rem;
+  color: #64748b;
+}
+
+.notice-date {
+  font-weight: 500;
+  color: #475569;
+  margin:5px;
+}
+
+.notice-author {
+  color: #3b82f6;
+  font-weight: 600;
+  background: #eef2ff;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  margin:5px;
+}
+
+.notice-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1e293b;
+  margin: 0.5rem 0 1rem;
+  line-height: 1.4;
+  margin:5px;
+}
+
+.notice-content-text {
+  color: #475569;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+  font-size: 0.95rem;
+  margin:5px;
+}
+
+/* Important Tag */
+.notice-important {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  padding: 0.25rem 0.75rem;
+  background-color: #f8fafc;
+  color: #334155;
+  font-size: 0.75rem;
+  font-weight: 700;
+  border-radius: 999px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+/* Delete Button - Modern Red */
 .delete-btn {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
   padding: 0.5rem 1rem;
-  background-color: #ef4444;
-  color: white;
-  border: none;
-  border-radius: 10px;
+  background-color: #fff;
+  color: #ef4444;
+  border: 1px solid #ef4444;
+  border-radius: 6px;
   cursor: pointer;
-  font-size: 0.875rem;
-  margin-top: 1rem;
+  font-size: 0.85rem;
+  font-weight: 500;
   transition: all 0.2s ease;
+  width: 100%;
+  justify-content: center;
 }
 
 .delete-btn:hover:not(:disabled) {
-  background-color: #dc2626;
+  background-color: #ef4444;
+  color: white;
   transform: translateY(-1px);
 }
 
 .delete-btn:disabled {
-  background-color: #9ca3af;
-  cursor: not-allowed;
   opacity: 0.7;
+  cursor: not-allowed;
 }
 
-/* Loading spinner */
+.delete-btn svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* Modal Styles - Modern Overlay */
+.notice-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(15, 23, 42, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(4px);
+  padding: 1rem;
+}
+
+.modal-content {
+  background-color: white;
+  width: 100%;
+  max-width: 600px;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 
+              0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  animation: modalFadeIn 0.3s ease-out;
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.modal-header h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: #1e293b;
+  font-weight: 700;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #64748b;
+  transition: color 0.2s;
+  padding: 0.5rem;
+  line-height: 1;
+}
+
+.close-btn:hover {
+  color: #1e293b;
+}
+
+/* Form Styles - Modern Inputs */
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: #334155;
+  font-size: 0.95rem;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: inherit;
+  transition: all 0.2s;
+  background-color: #f8fafc;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #4f46e5;
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+  background-color: white;
+}
+
+.form-group textarea {
+  min-height: 150px;
+  resize: vertical;
+}
+
+/* DateTime Picker Customization */
+.react-datetime-picker {
+  width: 100%;
+}
+
+.react-datetime-picker__wrapper {
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  background-color: #f8fafc;
+}
+
+/* Checkbox Styling */
+.form-checkbox {
+  display: flex;
+  align-items: center;
+  margin: 1.5rem 0;
+}
+
+.form-checkbox input {
+  width: 18px;
+  height: 18px;
+  margin-right: 0.75rem;
+  accent-color: #4f46e5;
+  cursor: pointer;
+}
+
+.form-checkbox label {
+  font-weight: 500;
+  color: #334155;
+  cursor: pointer;
+}
+
+/* Form Actions - Button Group */
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.btn-cancel {
+  padding: 0.75rem 1.5rem;
+  background-color: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  cursor: pointer;
+  color: #64748b;
+  font-weight: 500;
+  font-size: 0.95rem;
+  transition: all 0.2s;
+}
+
+.btn-cancel:hover {
+  background-color: #f1f5f9;
+  color: #475569;
+}
+
+.btn-submit {
+  padding: 0.75rem 1.5rem;
+  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 0.95rem;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.btn-submit:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(79, 70, 229, 0.3);
+}
+
+.btn-submit:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* Loading States */
+.loading-spinner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 2rem;
+  color: #64748b;
+  font-weight: 500;
+}
+
 .spin {
   animation: spin 1s linear infinite;
 }
@@ -327,15 +398,63 @@
   to { transform: rotate(360deg); }
 }
 
-/* Error message styling */
+/* Empty State */
+.no-notices {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: #64748b;
+  background-color: #f8fafc;
+  border-radius: 8px;
+  border: 1px dashed #e2e8f0;
+}
+
+/* Error Message - Modern Alert */
 .error-message {
-  background-color: #fee2e2;
-  color: #dc2626;
+  background-color: #fef2f2;
+  color: #b91c1c;
   padding: 1rem;
-  border-radius: 0.5rem;
+  border-radius: 8px;
   margin: 1rem 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
   border-left: 4px solid #dc2626;
+  font-size: 0.95rem;
 }
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .notice-container {
+    padding: 1rem;
+  }
+  
+  .notice-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  
+  .notice-list {
+    grid-template-columns: 1fr;
+  }
+  
+  .modal-content {
+    padding: 1.5rem;
+  }
+}
+
+/* Animation for Notice Cards */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.notice-card {
+  animation: fadeIn 0.3s ease-out forwards;
+  opacity: 0;
+}
+
+.notice-card:nth-child(1) { animation-delay: 0.1s; }
+.notice-card:nth-child(2) { animation-delay: 0.2s; }
+.notice-card:nth-child(3) { animation-delay: 0.3s; }
+.notice-card:nth-child(4) { animation-delay: 0.4s; }

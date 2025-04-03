@@ -178,14 +178,18 @@ axios.defaults.headers.common['Access-Control-Allow-Methods'] = 'GET,PUT,POST,DE
     status: 'Pending'
   });
 
-  const countComplaints = () => {
-    const total = complaints.length;
-    const solved = complaints.filter(c => c.status === 'Solved').length;
-    const unsolved = total - solved;
-    const blockA = complaints.filter(c => c.block === 'A').length;
-    const blockB = complaints.filter(c => c.block === 'B').length;
+  const calculateStats = (complaintsList) => {
+    const total = complaintsList.length;
+    const solved = complaintsList.filter(c => c.status === 'Solved').length;
+    const pending = total - solved;
+    const blockA = complaintsList.filter(c => c.block === 'A').length;
+    const blockB = complaintsList.filter(c => c.block === 'B').length;
     
-    return { total, solved, unsolved, blockA, blockB };
+    return { total, solved, pending, blockA, blockB };
+  };
+  
+  const countComplaints = () => {
+    return calculateStats(complaints);
   };
 
   const [complaintStats, setComplaintStats] = useState({
@@ -540,34 +544,39 @@ axios.defaults.headers.common['Access-Control-Allow-Methods'] = 'GET,PUT,POST,DE
     if (activeSection === "complaints-section") {
       fetchStats();
     }
-  }, [activeSection, complaints]); // Add complaints to dependencies to update stats when complaints change
-  
+  }, [activeSection, complaints]);
   
   // Add the status update handler
   const handleStatusUpdate = async (complaintId, newStatus) => {
-  try {
-    // Using proxy URL
-    const response = await axios.patch(
-      `/api/api/complaints/${complaintId}/status`,
-      { status: newStatus },
-      {
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem("token")}`,
-          'Content-Type': 'application/json'
+    try {
+      const response = await axios.patch(
+        `http://localhost:8080/api/complaints/${complaintId}/status`,
+        { status: newStatus },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem("token")}`
+          }
         }
-      }
-    );
-
-    // Update local state
-    setComplaints(complaints.map(c => 
-      c.id === complaintId ? { ...c, status: newStatus } : c
-    ));
-    
-  } catch (err) {
-    console.error('Status update failed:', err);
-    alert('Failed to update status. See console for details.');
-  }
-};
+      );
+  
+      // Update local state
+      setComplaints(complaints.map(c => 
+        c.id === complaintId ? { ...c, status: newStatus } : c
+      ));
+  
+      // Recalculate complaint stats
+      const updatedStats = calculateStats(complaints.map(c => 
+        c.id === complaintId ? { ...c, status: newStatus } : c
+      ));
+      setComplaintStats(updatedStats);
+  
+    } catch (err) {
+      console.error('Status update failed:', err);
+      alert('Failed to update status. See console for details.');
+    }
+  };
+  
   
   // Add the complaint form change handler
   const handleComplaintFormChange = (e) => {
@@ -635,6 +644,7 @@ axios.defaults.headers.common['Access-Control-Allow-Methods'] = 'GET,PUT,POST,DE
     }
   };
 
+ 
   
 
   const getSectionTitle = () => {
@@ -894,68 +904,7 @@ axios.defaults.headers.common['Access-Control-Allow-Methods'] = 'GET,PUT,POST,DE
         <div>Block B</div>
       </div>
     </div>
-    
-    <div className="card" style={{ marginTop: '1.5rem' }}>
-      <h2 className="section-title">Submit Complaint</h2>
-      {complaintError && (
-        <div className="error-message" style={{ marginBottom: '1rem' }}>
-          {complaintError}
-        </div>
-      )}
-      <form onSubmit={handleComplaintSubmit} className="form-container">
-        <div className="form-group">
-          <label className="form-label" htmlFor="name">
-            Name
-          </label>
-          <input
-            className="form-input"
-            id="name"
-            name="name"
-            placeholder="Enter your Name here"
-            type="text"
-            value={complaintFormData.name}
-            onChange={handleComplaintFormChange}
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label className="form-label" htmlFor="title">
-            Title *
-          </label>
-          <input
-            className="form-input"
-            id="title"
-            name="title"
-            placeholder="Enter the Title here"
-            type="text"
-            value={complaintFormData.title}
-            onChange={handleComplaintFormChange}
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label className="form-label" htmlFor="description">
-            Description *
-          </label>
-          <textarea
-            className="form-textarea"
-            id="description"
-            name="description"
-            placeholder="Enter the Description here"
-            value={complaintFormData.description}
-            onChange={handleComplaintFormChange}
-            required
-          ></textarea>
-        </div>
-        <button
-          className="btn btn-primary"
-          type="submit"
-          disabled={isLoadingComplaints}
-        >
-          {isLoadingComplaints ? 'Submitting...' : 'Submit'}
-        </button>
-      </form>
-    </div>
+  
     
     <div className="card" style={{ marginTop: '1.5rem' }}>
       <h2 className="section-title">All Complaints</h2>

@@ -9,9 +9,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.filter.CorsFilter;
+import org.springframework.web.cors.CorsConfigurationSource;
 
-import java.util.Arrays;
 import java.util.List;
 
 @Configuration
@@ -21,9 +20,9 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(AbstractHttpConfigurer::disable)  // Disable CSRF for APIs
+                .csrf(AbstractHttpConfigurer::disable)  // Disable CSRF
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))  // Enable CORS
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))  // Make it stateless
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))  // Stateless session
                 .authorizeHttpRequests(auth -> auth
                         .anyRequest().permitAll()  // Allow all requests (adjust as needed)
                 );
@@ -32,34 +31,15 @@ public class SecurityConfig {
     }
 
     @Bean
-    public UrlBasedCorsConfigurationSource corsConfigurationSource() {
+    public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(Arrays.asList("*"));  // Allow all origins
-        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));  // Allow these methods
+        config.setAllowedOrigins(List.of("http://localhost:5173"));  // Frontend URL
+        config.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")); // Allowed HTTP methods
         config.setAllowedHeaders(List.of("*"));  // Allow all headers
-        config.setAllowCredentials(false);  // Must be false when allowing all origins (*)
+        config.setAllowCredentials(true);  // Allow credentials
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);
         return source;
     }
-
-    @Bean
-    public CorsFilter corsFilter() {
-        return new CorsFilter(corsConfigurationSource());
-    }
 }
-
-//@Bean
-//public UrlBasedCorsConfigurationSource corsConfigurationSource() {
-//    CorsConfiguration config = new CorsConfiguration();
-//    config.setAllowedOrigins(List.of("http://localhost:5173")); // Specific origin
-//    config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
-//    config.setAllowedHeaders(List.of("*"));
-//    config.setAllowCredentials(true);
-//    config.setMaxAge(3600L);
-//
-//    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-//    source.registerCorsConfiguration("/**", config);
-//    return source;
-//}

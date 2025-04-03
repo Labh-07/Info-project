@@ -9,9 +9,24 @@ public class Notice {
     @Id
     private String id;
     private String title;
-    private String content;  // Changed from description to match frontend
-    private LocalDateTime scheduleAt;  // Changed from dateTime to match frontend
-    private boolean isImportant;  // Added for frontend compatibility
+    private String content;
+    private LocalDateTime scheduleAt;
+    private boolean isImportant;
+    private String createdBy; // Added to track who created the notice
+    private LocalDateTime createdAt; // Added for audit purposes
+
+    // Constructors
+    public Notice() {
+        this.createdAt = LocalDateTime.now();
+    }
+
+    public Notice(String title, String content, LocalDateTime scheduleAt, boolean isImportant) {
+        this();
+        this.title = title;
+        this.content = content;
+        this.scheduleAt = scheduleAt;
+        this.isImportant = isImportant;
+    }
 
     // Getters and Setters
     public String getId() { return id; }
@@ -28,4 +43,10 @@ public class Notice {
 
     public boolean isImportant() { return isImportant; }
     public void setImportant(boolean important) { isImportant = important; }
+
+    public String getCreatedBy() { return createdBy; }
+    public void setCreatedBy(String createdBy) { this.createdBy = createdBy; }
+
+    public LocalDateTime getCreatedAt() { return createdAt; }
+    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
 }
