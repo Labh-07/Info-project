@@ -5,12 +5,9 @@ import SignUp from './components/SignUp';
 import AdminDetails from './components/AdminDetails';
 import ResidentDetails from './components/ResidentDetails';
 import SuccessPhe from './components/SuccessPage';
-// import Home from '../Home';
-import HomeUi from './components/HomeUi';
-import HomeUi2 from './components/HomeUi2';
-import HomeUi3 from './components/HomeUi3';
+
 import HomeUi4 from './components/HomeUi4';
-import HomeUi5 from './components/Home/HomeUI';
+
 import HomeUi6 from './components/HomeResident/HomeUiResident';
 
 
