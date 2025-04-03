@@ -324,3 +324,50 @@
   color: #2f855a;
   border: 1px solid #c6f6d5;
 }
+
+/*resident request refresh button*/
+/* Add these styles */
+.admin-response {
+  background-color: #f8f9fa;
+  padding: 0.75rem;
+  border-radius: 4px;
+  margin: 0.5rem 0;
+  border-left: 3px solid #4CAF50; /* Green for approved */
+}
+
+.request-status {
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-weight: 500;
+  margin-left: 0.5rem;
+}
+
+.request-status.Pending {
+  background-color: #fef3c7;
+  color: #92400e;
+}
+
+.request-status.Approved {
+  background-color: #d1fae5;
+  color: #065f46;
+}
+
+.request-status.Rejected {
+  background-color: #fee2e2;
+  color: #991b1b;
+}
+
+.request-card {
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.request-card:hover {
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.request-details {
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid #eee;
+}

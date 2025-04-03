@@ -122,6 +122,8 @@ function HomeUI() {
     phoneNo: '',
     additionalNotes: ''
   });
+  console.log("Current user data:", userData);
+console.log("Current service requests:", serviceRequests);
 
   // Complaint states
 const [complaints, setComplaints] = useState([]);
@@ -437,6 +439,62 @@ const handleServiceFormChange = (e) => {
       setIsLoadingRequests(false);
     }
   };
+
+  // Add this near your other useEffect hooks
+  useEffect(() => {
+    const fetchServiceRequests = async () => {
+      if (activeSection !== "request-services-section") return;
+      
+      setIsLoadingRequests(true);
+      setRequestError(null);
+      try {
+        const response = await axios.get(
+          'http://localhost:8080/service-requests/all-services',
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`
+            },
+            params: {
+              residentId: userData?.id // Add this if your backend filters by resident
+            }
+          }
+        );
+        
+        // Debug log to check what's being returned
+        console.log("Service requests data:", response.data);
+        
+        setServiceRequests(response.data);
+      } catch (err) {
+        console.error("Full error:", err);
+        setRequestError(err.response?.data?.message || 'Failed to load service requests');
+      } finally {
+        setIsLoadingRequests(false);
+      }
+    };
+    
+    fetchServiceRequests();
+  }, [activeSection, userData?.id]); // Add userData.id as dependency
+
+const fetchServiceRequests = async () => {
+  setIsLoadingRequests(true);
+  setRequestError(null);
+  try {
+    const response = await axios.get(
+      'http://localhost:8080/service-requests/all-services',
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`
+        }
+      }
+    );
+    setServiceRequests(response.data);
+  } catch (err) {
+    setRequestError('Failed to load service requests. Please try again later.');
+    console.error('Error fetching service requests:', err);
+  } finally {
+    setIsLoadingRequests(false);
+  }
+};
 
   //complaint section : 
   useEffect(() => {
@@ -1151,40 +1209,75 @@ useEffect(() => {
     </div>
     
     <div className="card" style={{ marginTop: '1.5rem' }}>
-      <h2 className="section-title">My Service Requests</h2>
+      <div className="section-header">
+        <h2 className="section-title">My Service Requests</h2>
+        <button 
+          onClick={fetchServiceRequests} 
+          className="btn-refresh"
+          disabled={isLoadingRequests}
+        >
+          {isLoadingRequests ? 'Refreshing...' : 'Refresh'}
+        </button>
+      </div>
+
       {isLoadingRequests ? (
         <div className="loading-spinner">Loading requests...</div>
       ) : requestError ? (
         <div className="error-message">
           {requestError}
-          <button onClick={() => window.location.reload()} className="retry-btn">Retry</button>
+          <button onClick={fetchServiceRequests} className="retry-btn">
+            Retry
+          </button>
         </div>
-      ) : serviceRequests.length > 0 ? (
-        <div className="requests-grid">
-          {serviceRequests
-            .filter(request => request.name === (userData?.name || ''))
-            .map((request) => (
-              <div key={request.id} className="request-card">
-                <h3>{request.serviceType}</h3>
-                <p><strong>Requested by:</strong> {request.name}</p>
-                <p><strong>Date:</strong> {new Date(request.createdAt).toLocaleString()}</p>
-                <p><strong>Address:</strong> {request.address}</p>
-                <p><strong>Phone:</strong> {request.phoneNo}</p>
-                {request.additionalNotes && <p><strong>Notes:</strong> {request.additionalNotes}</p>}
-                <p>
-                  <strong>Status:</strong> 
-                  <span className={`request-status ${request.status || 'Pending'}`}>
-                    {request.status || 'Pending'}
-                  </span>
-                </p>
-              </div>
-            ))
-          }
+      ) : serviceRequests.filter(r => r.name === userData?.name).length === 0 ? (
+        <div className="no-requests">
+          <p>No service requests found.</p>
+          <p>Submit a request using the form above.</p>
         </div>
       ) : (
-        <p>No service requests found.</p>
+        <div className="requests-grid">
+  {serviceRequests
+    .filter(request => 
+      request.name === userData?.name || 
+      request.email === userData?.email ||
+      request.residentId === userData?.id
+    )
+    .map((request) => (
+      <div key={request._id || request.id} className="request-card">
+        <h3>{request.serviceType || 'Service Request'}</h3>
+        <p><strong>Status:</strong>
+          <span className={`request-status ${request.status?.replace(/\s+/g, '') || 'Pending'}`}>
+            {request.status || 'Pending'}
+          </span>
+        </p>
+        <p><strong>Submitted:</strong> {new Date(request.createdAt).toLocaleString()}</p>
+        
+        {request.address && <p><strong>Address:</strong> {request.address}</p>}
+        {request.phoneNo && <p><strong>Phone:</strong> {request.phoneNo}</p>}
+        {request.additionalNotes && <p><strong>Notes:</strong> {request.additionalNotes}</p>}
+        
+        {/* Admin response section */}
+        {request.status === 'Approved' && request.adminNotes && (
+          <div className="admin-response">
+            <p><strong>Admin Response:</strong> {request.adminNotes}</p>
+            {request.approvalDate && (
+              <p><small>Approved on: {new Date(request.approvalDate).toLocaleString()}</small></p>
+            )}
+          </div>
+        )}
+        
+        {request.status === 'Rejected' && request.rejectionReason && (
+          <div className="admin-response rejected">
+            <p><strong>Reason for Rejection:</strong> {request.rejectionReason}</p>
+          </div>
+        )}
+      </div>
+    ))
+  }
+</div>
       )}
     </div>
+
   </div>
 )}
 

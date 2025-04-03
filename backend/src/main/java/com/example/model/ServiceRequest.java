@@ -3,6 +3,8 @@ package com.example.model;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.time.LocalDateTime;
+
 @Document(collection = "service_requests") // MongoDB Collection
 public class ServiceRequest {
 
@@ -13,6 +15,11 @@ public class ServiceRequest {
     private String address;
     private String phoneNo;
     private String additionalNotes;
+    private String status = "Pending"; // Default status
+    private LocalDateTime createdAt = LocalDateTime.now();
+    private LocalDateTime approvalDate;
+    private String adminNotes;
+    private String rejectionReason;
 
     // Constructors
     public ServiceRequest() {}
@@ -26,6 +33,7 @@ public class ServiceRequest {
     }
 
     // Getters and Setters
+
     public String getId() {
         return id;
     }
@@ -72,5 +80,45 @@ public class ServiceRequest {
 
     public void setAdditionalNotes(String additionalNotes) {
         this.additionalNotes = additionalNotes;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public LocalDateTime getApprovalDate() {
+        return approvalDate;
+    }
+
+    public void setApprovalDate(LocalDateTime approvalDate) {
+        this.approvalDate = approvalDate;
+    }
+
+    public String getAdminNotes() {
+        return adminNotes;
+    }
+
+    public void setAdminNotes(String adminNotes) {
+        this.adminNotes = adminNotes;
+    }
+
+    public String getRejectionReason() {
+        return rejectionReason;
+    }
+
+    public void setRejectionReason(String rejectionReason) {
+        this.rejectionReason = rejectionReason;
     }
 }

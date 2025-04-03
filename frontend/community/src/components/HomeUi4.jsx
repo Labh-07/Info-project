@@ -283,6 +283,55 @@ axios.defaults.headers.common['Access-Control-Allow-Methods'] = 'GET,PUT,POST,DE
     fetchServiceRequests();
   }, [activeSection]);
 
+  // In your HomeUI component
+const handleApproveRequest = async (requestId) => {
+  const adminNotes = prompt("Enter any additional notes for approval:");
+  try {
+    const response = await axios.patch(
+      `http://localhost:8080/service-requests/${requestId}/approve`,
+      null,
+      {
+        params: { adminNotes },
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`
+        }
+      }
+    );
+    
+    setServiceRequests(serviceRequests.map(req => 
+      req.id === requestId ? response.data : req
+    ));
+  } catch (error) {
+    console.error("Error approving request:", error);
+    alert("Failed to approve request");
+  }
+};
+
+const handleRejectRequest = async (requestId) => {
+  const rejectionReason = prompt("Please enter the reason for rejection:");
+  if (!rejectionReason) return;
+  
+  try {
+    const response = await axios.patch(
+      `http://localhost:8080/service-requests/${requestId}/reject`,
+      null,
+      {
+        params: { rejectionReason },
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`
+        }
+      }
+    );
+    
+    setServiceRequests(serviceRequests.map(req => 
+      req.id === requestId ? response.data : req
+    ));
+  } catch (error) {
+    console.error("Error rejecting request:", error);
+    alert("Failed to reject request");
+  }
+};
+
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
   };
@@ -956,42 +1005,66 @@ axios.defaults.headers.common['Access-Control-Allow-Methods'] = 'GET,PUT,POST,DE
 
             {/* Request Services Section */}
             {activeSection === "request-services-section" && (
-              <div>
-                <div className="card" style={{ marginTop: '1.5rem' }}>
-                  <h2 className="section-title">Service Requests</h2>
-                  {isLoadingRequests ? (
-                    <div className="loading-spinner">Loading requests...</div>
-                  ) : requestError ? (
-                    <div className="error-message">
-                      {requestError}
-                      <button onClick={() => window.location.reload()} className="retry-btn">Retry</button>
-                    </div>
-                  ) : serviceRequests.length > 0 ? (
-                    <div className="requests-grid">
-                      {serviceRequests.map((request) => (
-                        <div key={request.id} className="request-card">
-                          <h3>{request.serviceType}</h3>
-                          <p><strong>Requested by:</strong> {request.name}</p>
-                          <p><strong>Date:</strong> {new Date(request.createdAt).toLocaleString()}</p>
-                          <p><strong>Address:</strong> {request.address}</p>
-                          <p><strong>Phone:</strong> {request.phoneNo}</p>
-                          {request.additionalNotes && <p><strong>Notes:</strong> {request.additionalNotes}</p>}
-                          <p>
-                            <strong>Status:</strong> 
-                            <span className={`request-status ${request.status || 'Pending'}`}>
-                              {request.status || 'Pending'}
-                            </span>
-                          </p>
-                        </div>
-                      ))}
-                    </div>
-                  ) : (
-                    <p>No service requests found.</p>
-                  )}
+  <div>
+    <div className="card" style={{ marginTop: '1.5rem' }}>
+      <h2 className="section-title">Service Requests</h2>
+      {isLoadingRequests ? (
+        <div className="loading-spinner">Loading requests...</div>
+      ) : requestError ? (
+        <div className="error-message">
+          {requestError}
+          <button onClick={() => window.location.reload()} className="retry-btn">Retry</button>
+        </div>
+      ) : serviceRequests.length > 0 ? (
+        <div className="requests-grid">
+          {serviceRequests.map((request) => (
+            <div key={request.id} className="request-card">
+              <h3>{request.serviceType}</h3>
+              <p><strong>Requested by:</strong> {request.name}</p>
+              <p><strong>Date:</strong> {new Date(request.createdAt).toLocaleString()}</p>
+              <p><strong>Address:</strong> {request.address}</p>
+              <p><strong>Phone:</strong> {request.phoneNo}</p>
+              {request.additionalNotes && <p><strong>Notes:</strong> {request.additionalNotes}</p>}
+              <p>
+                <strong>Status:</strong> 
+                <span className={`request-status ${request.status || 'Pending'}`}>
+                  {request.status || 'Pending'}
+                </span>
+              </p>
+              
+              {userData?.role === 'Admin' && request.status === 'Pending' && (
+                <div className="request-actions">
+                  <button 
+                    onClick={() => handleApproveRequest(request.id)}
+                    className="btn-approve"
+                  >
+                    Approve
+                  </button>
+                  <button 
+                    onClick={() => handleRejectRequest(request.id)}
+                    className="btn-reject"
+                  >
+                    Reject
+                  </button>
                 </div>
-              </div>
-            )}
-
+              )}
+              
+              {request.status === 'Approved' && request.adminNotes && (
+                <p><strong>Admin Notes:</strong> {request.adminNotes}</p>
+              )}
+              
+              {request.status === 'Rejected' && request.rejectionReason && (
+                <p><strong>Reason:</strong> {request.rejectionReason}</p>
+              )}
+            </div>
+          ))}
+        </div>
+      ) : (
+        <p>No service requests found.</p>
+      )}
+    </div>
+  </div>
+)}
             {/* Events Section */}
             {activeSection === "events-section" && (
               <div>

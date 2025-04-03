@@ -3,6 +3,7 @@ package com.example.controller;
 import com.example.model.ServiceRequest;
 import com.example.service.ServiceRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -46,4 +47,25 @@ public class ServiceRequestController {
     public List<ServiceRequest> getServiceRequestsByName(@PathVariable String name) {
         return serviceRequestService.getServiceRequestsByName(name);
     }
+
+    // Add this new endpoint for approving requests
+    @PatchMapping("/{id}/approve")
+    public ResponseEntity<ServiceRequest> approveServiceRequest(
+            @PathVariable String id,
+            @RequestParam(required = false) String adminNotes) {
+
+        ServiceRequest approvedRequest = serviceRequestService.approveServiceRequest(id, adminNotes);
+        return ResponseEntity.ok(approvedRequest);
+    }
+
+    // Add this endpoint for rejecting requests
+    @PatchMapping("/{id}/reject")
+    public ResponseEntity<ServiceRequest> rejectServiceRequest(
+            @PathVariable String id,
+            @RequestParam(required = false) String rejectionReason) {
+
+        ServiceRequest rejectedRequest = serviceRequestService.rejectServiceRequest(id, rejectionReason);
+        return ResponseEntity.ok(rejectedRequest);
+    }
+
 }
