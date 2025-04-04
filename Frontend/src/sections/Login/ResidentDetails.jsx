@@ -59,7 +59,7 @@ const ResidentDetails = () => {
                 <div className="login_form">
                     <img src={CommunityLogo} id="logo" alt="community logo" />
                     <h3>Resident Details</h3>
-                   
+                    <p className="email-display">Email: {email ? email : "Loading..."}</p>
 
                     <form>
                         <label>Name</label>

@@ -11,7 +11,7 @@ const SignUp = () => {
     const navigate = useNavigate();
 
     const handleSignUp = async (e) => {
-        e.preventDefault();
+        e.preventDefault(); // Prevents page reload
 
         const user = { email, password, role };
         console.log("Sending data to backend:", user);
@@ -19,26 +19,39 @@ const SignUp = () => {
         try {
             const response = await fetch('http://localhost:8080/auth/signup', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
                 body: JSON.stringify(user),
             });
 
+            console.log("Raw response:", response);
+
+            // First check if response is ok
+            if (!response.ok) {
+                const errorData = await response.json().catch(() => ({}));
+                console.error("Signup failed:", errorData.message || response.statusText);
+                alert(`Signup failed: ${errorData.message || response.statusText}`);
+                return;
+            }
+
             const data = await response.json();
-            
+            console.log("Response data:", data);
+
             if (response.ok) {
-                localStorage.setItem("userEmail", email);
+                console.log("Signup successful! Redirecting...");
+                localStorage.setItem("userEmail", email); // Store email in localStorage
+
                 if (role === 'Resident') {
                     navigate('/resident-details');
                 } else {
                     navigate('/admin-details');
                 }
-            } else {
-                console.error("Signup failed:", data.message);
-                alert(`Signup failed: ${data.message}`);
             }
         } catch (error) {
             console.error("Error connecting to backend:", error);
-            alert("An error occurred. Please try again.");
+            alert("An error occurred. Please check console for details.");
         }
     };
 
@@ -75,14 +88,14 @@ const SignUp = () => {
                         <select 
                             value={role} 
                             onChange={(e) => setRole(e.target.value)}
-                            className="role-select"
+                            required
                         >
                             <option value="Admin">Admin</option>
                             <option value="Resident">Resident</option>
                         </select>
                         <br /><br />
 
-                        <button type="submit" className="button" id="button">
+                        <button type="submit" className="button">
                             Sign Up
                         </button>
                     </form>
