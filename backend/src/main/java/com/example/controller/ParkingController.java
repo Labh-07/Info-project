@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/parking")
 public class ParkingController {
@@ -28,6 +29,15 @@ public class ParkingController {
     public ResponseEntity<ParkingSpace> addParkingSpace(@RequestBody ParkingSpace parkingSpace) {
         return ResponseEntity.ok(parkingRepository.save(parkingSpace));
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ParkingSpace> updateParkingSpace(
+            @PathVariable String id,
+            @RequestBody ParkingSpace parkingSpace) {
+        parkingSpace.setId(id); // Ensure the ID is set
+        return ResponseEntity.ok(parkingRepository.save(parkingSpace));
+    }
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteParkingSpace(@PathVariable String id) {

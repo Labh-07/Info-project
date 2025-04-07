@@ -30,4 +30,13 @@ public class PostController {
         Post post = postService.createPost(title, caption, image);
         return ResponseEntity.ok(post);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletePost(@PathVariable String id) {
+        if (id == null || id.length() != 24) {
+            throw new IllegalArgumentException("Invalid post ID format");
+        }
+        postService.deletePost(id);
+        return ResponseEntity.noContent().build();
+    }
 }

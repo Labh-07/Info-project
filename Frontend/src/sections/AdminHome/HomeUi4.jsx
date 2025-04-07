@@ -39,6 +39,8 @@ axios.defaults.headers.common['Access-Control-Allow-Methods'] = 'GET,PUT,POST,DE
       phone: ''
   });
 
+  const [errors, setErrors] = useState({});
+
   // Event states
   const [eventFormData, setEventFormData] = useState({
     title: '',
@@ -147,6 +149,91 @@ axios.defaults.headers.common['Access-Control-Allow-Methods'] = 'GET,PUT,POST,DE
     
     setFilteredResidents(results);
   }, [residents, activeBlock, searchTerm]);
+
+  /*dashboard resident : */
+  const validateEditForm = () => {
+    const newErrors = {};
+    const phoneRegex = /^[0-9]{10}$/;
+    const flatNoRegex = /^[A-Za-z0-9\-]+$/;
+  
+    // Name validation
+    if (!editFormData.name.trim()) {
+      newErrors.name = 'Name is required';
+    } else if (editFormData.name.length < 2) {
+      newErrors.name = 'Name must be at least 2 characters';
+    }
+  
+    // Block validation
+    if (!editFormData.block) {
+      newErrors.block = 'Block is required';
+    }
+  
+    // Flat No validation
+    if (!editFormData.flatNo.trim()) {
+      newErrors.flatNo = 'Flat number is required';
+    } else if (!flatNoRegex.test(editFormData.flatNo)) {
+      newErrors.flatNo = 'Flat number can only contain letters, numbers, and hyphens';
+    }
+  
+    // Phone validation
+    if (!editFormData.phone) {
+      newErrors.phone = 'Phone number is required';
+    } else if (!phoneRegex.test(editFormData.phone)) {
+      newErrors.phone = 'Please enter a valid 10-digit phone number';
+    }
+  
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+  
+  const handleEditSubmit = async (e) => {
+    e.preventDefault();
+    
+    if (!validateEditForm()) {
+      // Scroll to first error
+      const firstError = Object.keys(errors)[0];
+      if (firstError) {
+        document.querySelector(`[name="${firstError}"]`).scrollIntoView({
+          behavior: 'smooth',
+          block: 'center'
+        });
+      }
+      return;
+    }
+  
+    try {
+      setIsLoadingResidents(true);
+      await axios.put(
+        `http://localhost:8080/api/user/resident-details?email=${currentResident.email}`,
+        editFormData,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+          }
+        }
+      );
+      
+      // Refresh residents after update
+      await fetchResidents();
+      setEditModalOpen(false);
+      setErrors({});
+    } catch (err) {
+      console.error("Error updating resident:", err);
+      alert('Failed to update resident. Please try again.');
+    } finally {
+      setIsLoadingResidents(false);
+    }
+  };
+  
+  const handleEditFormChange = (e) => {
+    const { name, value } = e.target;
+    setEditFormData(prev => ({ ...prev, [name]: value }));
+    // Clear error when user starts typing
+    if (errors[name]) {
+      setErrors(prev => ({ ...prev, [name]: '' }));
+    }
+  };
 
   // Fetch service requests when service section is active
   useEffect(() => {
@@ -396,23 +483,6 @@ const handleRejectRequest = async (requestId) => {
     setEditModalOpen(true);
   };
 
-  const handleEditFormChange = (e) => {
-    const { name, value } = e.target;
-    setEditFormData(prev => ({ ...prev, [name]: value }));
-  };
-
-  const handleEditSubmit = async (e) => {
-    e.preventDefault();
-    try {
-        await axios.put(`http://localhost:8080/api/user/resident-details?email=${currentResident.email}`, editFormData);
-        // Refresh residents after update
-        fetchResidents();
-        setEditModalOpen(false);
-    } catch (err) {
-        console.error("Error updating resident:", err);
-    }
-  };
-
   const fetchResidents = async () => {
     setIsLoadingResidents(true);
     setResidentError(null);
@@ -607,7 +677,6 @@ const handleRejectRequest = async (requestId) => {
 
   return (
     <>
-      {/* Tailwind CSS classes applied directly */}
       <div className="flex h-screen w-full overflow-hidden bg-gray-100">
         {/* Sidebar */}
         <div className="w-64 min-w-[16rem] bg-white h-screen shadow-sm flex-shrink-0 overflow-y-auto border-r border-gray-200 z-10 fixed md:relative">
@@ -778,68 +847,103 @@ const handleRejectRequest = async (requestId) => {
 
 {/* resident edit form : */}
 {editModalOpen && (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-        <div className="bg-white rounded-lg p-8 w-full max-w-md">
-            <h3 className="text-xl font-bold mb-4">Edit Resident Details</h3>
-            <form onSubmit={handleEditSubmit}>
-                <div className="mb-4">
-                    <label className="block text-gray-700 mb-2">Name</label>
-                    <input
-                        type="text"
-                        name="name"
-                        value={editFormData.name}
-                        onChange={handleEditFormChange}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    />
-                </div>
-                <div className="mb-4">
-                    <label className="block text-gray-700 mb-2">Block</label>
-                    <input
-                        type="text"
-                        name="block"
-                        value={editFormData.block}
-                        onChange={handleEditFormChange}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    />
-                </div>
-                <div className="mb-4">
-                    <label className="block text-gray-700 mb-2">Flat No</label>
-                    <input
-                        type="text"
-                        name="flatNo"
-                        value={editFormData.flatNo}
-                        onChange={handleEditFormChange}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    />
-                </div>
-                <div className="mb-4">
-                    <label className="block text-gray-700 mb-2">Phone</label>
-                    <input
-                        type="text"
-                        name="phone"
-                        value={editFormData.phone}
-                        onChange={handleEditFormChange}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    />
-                </div>
-                <div className="flex justify-end gap-4 mt-6">
-                    <button 
-                        type="button" 
-                        onClick={() => setEditModalOpen(false)}
-                        className="px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-100"
-                    >
-                        Cancel
-                    </button>
-                    <button 
-                        type="submit"
-                        className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
-                    >
-                        Save Changes
-                    </button>
-                </div>
-            </form>
+  <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+    <div className="bg-white rounded-lg p-8 w-full max-w-md max-h-[90vh] overflow-y-auto">
+      <h3 className="text-xl font-bold mb-4">Edit Resident Details</h3>
+      <form onSubmit={handleEditSubmit}>
+        {/* Name Field */}
+        <div className="mb-4">
+          <label className="block text-gray-700 mb-2">Name</label>
+          <input
+            type="text"
+            name="name"
+            value={editFormData.name}
+            onChange={handleEditFormChange}
+            className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+              errors.name ? 'border-red-500' : 'border-gray-300'
+            }`}
+          />
+          {errors.name && (
+            <span className="text-red-500 text-sm mt-1">{errors.name}</span>
+          )}
         </div>
+
+        {/* Block Field */}
+        <div className="mb-4">
+          <label className="block text-gray-700 mb-2">Block</label>
+          <select
+            name="block"
+            value={editFormData.block}
+            onChange={handleEditFormChange}
+            className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+              errors.block ? 'border-red-500' : 'border-gray-300'
+            }`}
+          >
+            <option value="">Select Block</option>
+            <option value="A">Block A</option>
+            <option value="B">Block B</option>
+          </select>
+          {errors.block && (
+            <span className="text-red-500 text-sm mt-1">{errors.block}</span>
+          )}
+        </div>
+
+        {/* Flat No Field */}
+        <div className="mb-4">
+          <label className="block text-gray-700 mb-2">Flat No</label>
+          <input
+            type="text"
+            name="flatNo"
+            value={editFormData.flatNo}
+            onChange={handleEditFormChange}
+            className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+              errors.flatNo ? 'border-red-500' : 'border-gray-300'
+            }`}
+          />
+          {errors.flatNo && (
+            <span className="text-red-500 text-sm mt-1">{errors.flatNo}</span>
+          )}
+        </div>
+
+        {/* Phone Field */}
+        <div className="mb-4">
+          <label className="block text-gray-700 mb-2">Phone</label>
+          <input
+            type="tel"
+            name="phone"
+            value={editFormData.phone}
+            onChange={handleEditFormChange}
+            maxLength="10"
+            className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+              errors.phone ? 'border-red-500' : 'border-gray-300'
+            }`}
+          />
+          {errors.phone && (
+            <span className="text-red-500 text-sm mt-1">{errors.phone}</span>
+          )}
+        </div>
+
+        <div className="flex justify-end gap-4 mt-6">
+          <button
+            type="button"
+            onClick={() => {
+              setEditModalOpen(false);
+              setErrors({});
+            }}
+            className="px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-100"
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+          >
+            Save Changes
+          </button>
+        </div>
+      </form>
     </div>
+  </div>
 )}
 
             {/* Complaints Section */}
@@ -952,20 +1056,20 @@ const handleRejectRequest = async (requestId) => {
               </p>
               
               {userData?.role === 'Admin' && request.status === 'Pending' && (
-                <div className="request-actions">
-                  <button 
-                    onClick={() => handleApproveRequest(request.id)}
-                    className="btn-approve"
-                  >
-                    Approve
-                  </button>
-                  <button 
-                    onClick={() => handleRejectRequest(request.id)}
-                    className="btn-reject"
-                  >
-                    Reject
-                  </button>
-                </div>
+               <div className="request-actions flex gap-3">
+               <button 
+                 onClick={() => handleApproveRequest(request.id)}
+                 className="btn-approve border border-green-500 text-green-500 hover:bg-green-500 hover:text-white font-medium py-2 px-4 rounded-md transition-colors duration-200 "
+               >
+                 Approve
+               </button>
+               <button 
+                 onClick={() => handleRejectRequest(request.id)}
+                 className="btn-reject border border-red-500 text-red-500 hover:bg-red-500 hover:text-white font-medium py-2 px-4 rounded-md transition-colors duration-200"
+               >
+                 Reject
+               </button>
+             </div>
               )}
               
               {request.status === 'Approved' && request.adminNotes && (
@@ -1288,11 +1392,11 @@ const handleRejectRequest = async (requestId) => {
                     </div>
                     <div className="contact-card contact-card-yellow">
                       <h3>Society Security</h3>
-                      <p>Phone: 9876543210</p>
+                      <p>Phone: 8200176230</p>
                     </div>
                     <div className="contact-card contact-card-purple">
                       <h3>Maintenance</h3>
-                      <p>Phone: 9876543211</p>
+                      <p>Phone: 8200176230</p>
                     </div>
                   </div>
                 </div>

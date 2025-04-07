@@ -48,4 +48,22 @@ public class PostService {
             throw new RuntimeException("Failed to store file", e);
         }
     }
+
+    public void deletePost(String id) {
+        // First get the post to access the image filename
+        Post post = postRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Post not found"));
+
+        // Delete the associated image file
+        try {
+            Path filePath = Paths.get(UPLOAD_DIR).resolve(post.getImageUrl());
+            Files.deleteIfExists(filePath);
+        } catch (IOException e) {
+            // Log the error but continue with post deletion
+            System.err.println("Failed to delete image file: " + e.getMessage());
+        }
+
+        // Delete the post from database
+        postRepository.deleteById(id);
+    }
 }

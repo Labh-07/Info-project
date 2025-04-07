@@ -133,8 +133,8 @@ const [complaintFormData, setComplaintFormData] = useState({
   name: userData?.name || '',
   title: '',
   description: '',
-  block: userData?.block || '',
-  flatNo: userData?.flatNo || '',
+  block: userData?.block || '',  
+  flatNo: userData?.flatNo || '',  
   status: 'Pending'
 });
 const [complaintStats, setComplaintStats] = useState({
@@ -162,6 +162,17 @@ const [paymentHistory, setPaymentHistory] = useState([]);
       setUserData({ ...storedUserData, email: userEmail, role: userRole });
     }
   }, []);
+
+  useEffect(() => {
+    if (userData) {
+      setComplaintFormData(prev => ({
+        ...prev,
+        name: userData.name || '',
+        block: userData.block || '',
+        flatNo: userData.flatNo || ''
+      }));
+    }
+  }, [userData]);
 
   // Fetch residents from backend
   useEffect(() => {
@@ -1031,6 +1042,34 @@ useEffect(() => {
                       />
                     </div>
                     <div className="grid gap-2">
+  <label className="font-medium text-gray-700" htmlFor="block">
+    Block
+  </label>
+  <input
+    className="px-3 py-2 border border-gray-300 rounded-md bg-gray-100"
+    id="block"
+    name="block"
+    type="text"
+    value={complaintFormData.block}
+    readOnly
+  />
+</div>
+
+<div className="grid gap-2">
+  <label className="font-medium text-gray-700" htmlFor="flatNo">
+    Flat Number
+  </label>
+  <input
+    className="px-3 py-2 border border-gray-300 rounded-md bg-gray-100"
+    id="flatNo"
+    name="flatNo"
+    type="text"
+    value={complaintFormData.flatNo}
+    readOnly
+  />
+</div>
+
+                    <div className="grid gap-2">
                       <label className="font-medium text-gray-700" htmlFor="title">
                         Title *
                       </label>
@@ -1414,11 +1453,11 @@ useEffect(() => {
                   </div>
                   <div className="bg-amber-50 p-4 rounded-lg border-l-4 border-amber-500">
                     <h3 className="font-semibold mb-2">Society Security</h3>
-                    <p>Phone: 9876543210</p>
+                    <p>Phone: 8200176230</p>
                   </div>
                   <div className="bg-purple-50 p-4 rounded-lg border-l-4 border-purple-500">
                     <h3 className="font-semibold mb-2">Maintenance</h3>
-                    <p>Phone: 9876543211</p>
+                    <p>Phone: 8200176230</p>
                   </div>
                 </div>
               </div>
