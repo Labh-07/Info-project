@@ -8,10 +8,53 @@ const SignUp = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [role, setRole] = useState('Resident');
+    const [errors, setErrors] = useState({});
     const navigate = useNavigate();
+
+    // Validate email format
+    const validateEmail = (email) => {
+        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return re.test(String(email).toLowerCase());
+    };
+
+    // Validate password strength
+    const validatePassword = (password) => {
+        // At least 8 characters, 1 uppercase, 1 lowercase, 1 number
+        const re = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
+        return re.test(password);
+    };
+
+    // Validate entire form
+    const validateForm = () => {
+        const newErrors = {};
+
+        // Email validation
+        if (!email) {
+            newErrors.email = 'Email is required';
+        } else if (!validateEmail(email)) {
+            newErrors.email = 'Please enter a valid email address';
+        }
+
+        // Password validation
+        if (!password) {
+            newErrors.password = 'Password is required';
+        } else if (password.length < 8) {
+            newErrors.password = 'Password must be at least 8 characters';
+        } else if (!validatePassword(password)) {
+            newErrors.password = 'Password must contain at least one uppercase letter, one lowercase letter, and one number';
+        }
+
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
 
     const handleSignUp = async (e) => {
         e.preventDefault(); // Prevents page reload
+
+        // Validate form before submission
+        if (!validateForm()) {
+            return;
+        }
 
         const user = { email, password, role };
         console.log("Sending data to backend:", user);
@@ -71,8 +114,9 @@ const SignUp = () => {
                             type="email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            required
+                            className={errors.email ? 'error' : ''}
                         />
+                        {errors.email && <span className="error-message">{errors.email}</span>}
                         <br /><br />
 
                         <label>Password</label>
@@ -80,15 +124,15 @@ const SignUp = () => {
                             type="password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
-                            required
+                            className={errors.password ? 'error' : ''}
                         />
+                        {errors.password && <span className="error-message">{errors.password}</span>}
                         <br /><br />
 
                         <label>Role</label>
                         <select 
                             value={role} 
                             onChange={(e) => setRole(e.target.value)}
-                            required
                         >
                             <option value="Admin">Admin</option>
                             <option value="Resident">Resident</option>

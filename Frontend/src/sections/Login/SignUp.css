@@ -134,3 +134,16 @@ body {
 #logo {
     height: 100px;
 }
+
+/*error :*/
+.error {
+    border: 1px solid red;
+}
+
+.error-message {
+    color: red;
+    font-size: 0.8rem;
+    margin-top: 3px;
+    margin-bottom: -10px;
+    display: block;
+}

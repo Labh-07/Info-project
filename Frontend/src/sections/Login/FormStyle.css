@@ -139,3 +139,21 @@ body {
     margin-top: 30px;
     width: 100%;
 }
+
+/*form validation style :*/
+.error {
+    border: 1px solid red;
+}
+
+.error-message {
+    color: red;
+    font-size: 0.8rem;
+    margin-top: 0.2rem;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+/* Adjust spacing for error messages */
+.login_form input {
+    margin-bottom: 0.2rem;
+}
