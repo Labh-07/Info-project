@@ -62,7 +62,7 @@ body {
     border-radius: 15px;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
     overflow-y: auto;
-    max-height: 600px;
+    
 }
 
 .login_form h3 {
@@ -156,4 +156,80 @@ body {
 /* Adjust spacing for error messages */
 .login_form input {
     margin-bottom: 0.2rem;
+}
+
+/* Compact Form Styles */
+.compact-form {
+    width: 100%;
+  }
+  
+  .form-row {
+    margin-bottom: 0.8rem;
+  }
+  
+  .form-row label {
+    display: block;
+    margin-bottom: 0.2rem;
+  }
+  
+  .form-row input {
+    margin-bottom: 0;
+  }
+  
+  .error-text {
+    color: red;
+    font-size: 0.75rem;
+    height: 0.9rem;
+    line-height: 0.9rem;
+    margin-top: 0.1rem;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+  
+  .error {
+    border: 1px solid red !important;
+  }
+  
+  /* Reduce padding on smaller screens */
+  @media (max-height: 700px) {
+    .login_form {
+      padding: 20px;
+    }
+    
+    .form-row {
+      margin-bottom: 0.6rem;
+    }
+    
+    .button {
+      margin-top: 0.8rem;
+      padding: 10px;
+    }
+  }
+
+  /* scrollable form: */
+.scrollable-form-container {
+    max-height: 400px; /* Adjust this value as needed */
+    overflow-y: auto;
+    width: 100%;
+    padding-right: 10px; /* Prevents content from being hidden under scrollbar */
+}
+
+/* Style the scrollbar */
+.scrollable-form-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.scrollable-form-container::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+.scrollable-form-container::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 10px;
+}
+
+.scrollable-form-container::-webkit-scrollbar-thumb:hover {
+    background: #555;
 }

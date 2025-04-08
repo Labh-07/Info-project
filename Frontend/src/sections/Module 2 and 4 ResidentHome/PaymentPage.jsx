@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import './PaymentPage.css';
+import './styles/PaymentPage.css';
 
 const RazorpayPayment = ({ amount, description, billId, residentId, onSuccess, onClose }) => {
   useEffect(() => {

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import './FormStyle.css';
+import './Style/FormStyle.css';
 import buildingImage from './assets/building pic for sign up page.jpg';
 import CommunityLogo from './assets/Logo.jpg';
 

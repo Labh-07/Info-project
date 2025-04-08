@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import './SignUp.css';
+import './Style/SignUp.css';
 import buildingImage from './assets/building pic for sign up page.jpg';
 import CommunityLogo from './assets/Logo.jpg';
 
@@ -49,7 +49,7 @@ const SignUp = () => {
     };
 
     const handleSignUp = async (e) => {
-        e.preventDefault(); // Prevents page reload
+        e.preventDefault(); 
 
         // Validate form before submission
         if (!validateForm()) {

@@ -4,7 +4,7 @@ import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import timeGridPlugin from '@fullcalendar/timegrid';
-import "./HomeUiResident.css";
+import "./styles/HomeUiResident.css";
 import Notices from './NoticesResident'; 
 import Posts from './PostsResident'; 
 import Parking from './ParkingResident'; 

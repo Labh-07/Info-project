@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
 import { Car, Search, BarChart2 } from 'lucide-react';
-import "./ParkingResident.css";
+import "./styles/ParkingResident.css";
 
 const API_BASE_URL = 'http://localhost:8080';
 

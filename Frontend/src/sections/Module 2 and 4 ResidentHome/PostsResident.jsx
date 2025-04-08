@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
 import { Pen } from 'lucide-react';
-import "./PostsResident.css"; // Using the same CSS as admin for consistency
+import "./styles/PostsResident.css"; 
 
 const API_BASE_URL = 'http://localhost:8080';
 

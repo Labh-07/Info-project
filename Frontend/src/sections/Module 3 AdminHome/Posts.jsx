@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
 import { Pen, Plus, X, Trash2 } from 'lucide-react';
-import "./Posts.css";
+import "./styles/Posts.css";
 
 const API_BASE_URL = 'http://localhost:8080';
 

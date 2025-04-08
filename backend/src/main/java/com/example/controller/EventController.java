@@ -43,8 +43,21 @@ public class EventController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Event> updateEvent(@PathVariable String id, @RequestBody Event event) {
-        return ResponseEntity.ok(eventService.updateEvent(id, event));
+    public ResponseEntity<?> updateEvent(@PathVariable String id, @RequestBody Event event) {
+        try {
+            // Add validation
+            if (event.getTitle() == null || event.getTitle().isEmpty()) {
+                return ResponseEntity.badRequest().body("Title is required");
+            }
+            if (event.getStart() == null) {
+                return ResponseEntity.badRequest().body("Start date is required");
+            }
+
+            Event updatedEvent = eventService.updateEvent(id, event);
+            return ResponseEntity.ok(updatedEvent);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @DeleteMapping("/{id}")

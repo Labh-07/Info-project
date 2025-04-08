@@ -1,12 +1,12 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-import LogIn from './sections/Login/LogIn';
-import HomeAdmin from "./sections/AdminHome/HomeUi4";
-import HomeResident from "./sections/ResidentHome/HomeUiResident";
-import SignUp from './sections/Login/SignUp';
-import AdminDetails from './sections/Login/AdminDetails';
-import ResidentDetails from './sections/Login/ResidentDetails';
-import SuccessPhe from './sections/Login/SuccessPage';
+import LogIn from './sections/Module 1 Login/LogIn';
+import HomeAdmin from "./sections/Module 3 AdminHome/HomeUi4";
+import HomeResident from "./sections/Module 2 and 4 ResidentHome/HomeUiResident";
+import SignUp from './sections/Module 1 Login/SignUp';
+import AdminDetails from './sections/Module 1 Login/AdminDetails';
+import ResidentDetails from './sections/Module 1 Login/ResidentDetails';
+import SuccessPhe from './sections/Module 1 Login/SuccessPage';
 
 export default function App() {
   return (

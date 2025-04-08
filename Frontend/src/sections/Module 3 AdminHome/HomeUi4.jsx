@@ -4,14 +4,14 @@ import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import timeGridPlugin from '@fullcalendar/timegrid';
-import "./HomeUi4.css";
+import "./styles/HomeUi4.css";
 import Notices from './Notices'; 
 import Posts from './Posts'; 
 import Parking from './Parking'; 
 import { Calendar, Cog, AlertCircle, Bell, Pen, Phone, FileText, LogOut, ParkingSquare, LayoutDashboard, User, Search } from 'lucide-react';
-import { fetchEvents, createEvent, updateEvent, deleteEvent } from '../services/api.js';
+import { fetchEvents, createEvent, updateEvent, deleteEvent } from './services/api.js';
 
-import logo from "./Logo.jpg";
+import logo from "./assets/Logo.jpg";
 
 
 // Main component

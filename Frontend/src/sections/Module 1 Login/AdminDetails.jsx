@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './FormStyle.css';
+import './Style/FormStyle.css'; 
 import buildingImage from './assets/building pic for sign up page.jpg';
 import CommunityLogo from './assets/Logo.jpg';
 
-const ResidentDetails = () => {
+const AdminDetails = () => {
     const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [details, setDetails] = useState({
-        name: '', phone: '', societyId: '', societyName: '', flatNo: '', block: '', postal: '',
+        name: '', phone: '', societyId: '', societyName: '', 
+        societyAddress: '', city: '', district: '', postal: '',
     });
     const [errors, setErrors] = useState({});
 
@@ -32,9 +33,8 @@ const ResidentDetails = () => {
 
     const validateForm = () => {
         const newErrors = {};
-        const phoneRegex = /^[0-9]{10}$/; // 10-digit phone number
-        const postalRegex = /^[0-9]{6}$/; // 6-digit postal code
-        const flatNoRegex = /^[A-Za-z0-9\-]+$/; // Alphanumeric with optional hyphen
+        const phoneRegex = /^[0-9]{10}$/; // Simple 10-digit phone number validation
+        const postalRegex = /^[0-9]{6}$/; // 6-digit postal code validation
 
         // Name validation
         if (!details.name.trim()) {
@@ -60,16 +60,19 @@ const ResidentDetails = () => {
             newErrors.societyName = 'Society name is required';
         }
 
-        // Block validation
-        if (!details.block.trim()) {
-            newErrors.block = 'Block is required';
+        // Society Address validation
+        if (!details.societyAddress.trim()) {
+            newErrors.societyAddress = 'Society address is required';
         }
 
-        // Flat Number validation
-        if (!details.flatNo.trim()) {
-            newErrors.flatNo = 'Flat number is required';
-        } else if (!flatNoRegex.test(details.flatNo)) {
-            newErrors.flatNo = 'Flat number can only contain letters, numbers, and hyphens';
+        // City validation
+        if (!details.city.trim()) {
+            newErrors.city = 'City is required';
+        }
+
+        // District validation
+        if (!details.district.trim()) {
+            newErrors.district = 'District is required';
         }
 
         // Postal Code validation
@@ -87,14 +90,6 @@ const ResidentDetails = () => {
         e.preventDefault();
         
         if (!validateForm()) {
-            // Scroll to first error
-            const firstError = Object.keys(errors)[0];
-            if (firstError) {
-                document.querySelector(`[name="${firstError}"]`).scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'center'
-                });
-            }
             return;
         }
 
@@ -104,7 +99,7 @@ const ResidentDetails = () => {
         }
 
         try {
-            const response = await fetch(`http://localhost:8080/api/user/resident-details?email=${email}`, {
+            const response = await fetch(`http://localhost:8080/api/user/admin-details?email=${email}`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -113,10 +108,10 @@ const ResidentDetails = () => {
             });
 
             if (response.ok) {
-                console.log("Resident details saved successfully");
+                console.log("Admin details saved successfully");
                 navigate('/success');
             } else {
-                console.error("Error saving resident details");
+                console.error("Error saving admin details");
                 const errorData = await response.json();
                 alert(`Error: ${errorData.message || 'Failed to save details'}`);
             }
@@ -134,12 +129,12 @@ const ResidentDetails = () => {
                 </div>
                 <div className="login_form">
                     <img src={CommunityLogo} id="logo" alt="community logo" />
-                    <h3>Resident Details</h3>
+                    <h3>Admin Details</h3>
                     <p className="email-display">Email: {email ? email : "Loading..."}</p>
 
-                    <form onSubmit={handleRegister}>
-                        <div className="form-content">
-                            <div className="input-group">
+                    <div className="scrollable-form-container">
+                        <form onSubmit={handleRegister} className="compact-form">
+                            <div className="form-row">
                                 <label>Name</label>
                                 <input 
                                     type="text" 
@@ -148,10 +143,10 @@ const ResidentDetails = () => {
                                     onChange={handleChange} 
                                     className={errors.name ? 'error' : ''}
                                 />
-                                {errors.name && <span className="error-message">{errors.name}</span>}
+                                {errors.name && <div className="error-text">{errors.name}</div>}
                             </div>
                             
-                            <div className="input-group">
+                            <div className="form-row">
                                 <label>Phone Number</label>
                                 <input 
                                     type="tel" 
@@ -161,10 +156,10 @@ const ResidentDetails = () => {
                                     className={errors.phone ? 'error' : ''}
                                     maxLength="10"
                                 />
-                                {errors.phone && <span className="error-message">{errors.phone}</span>}
+                                {errors.phone && <div className="error-text">{errors.phone}</div>}
                             </div>
                             
-                            <div className="input-group">
+                            <div className="form-row">
                                 <label>Society ID</label>
                                 <input 
                                     type="text" 
@@ -173,10 +168,10 @@ const ResidentDetails = () => {
                                     onChange={handleChange} 
                                     className={errors.societyId ? 'error' : ''}
                                 />
-                                {errors.societyId && <span className="error-message">{errors.societyId}</span>}
+                                {errors.societyId && <div className="error-text">{errors.societyId}</div>}
                             </div>
                             
-                            <div className="input-group">
+                            <div className="form-row">
                                 <label>Society Name</label>
                                 <input 
                                     type="text" 
@@ -185,34 +180,46 @@ const ResidentDetails = () => {
                                     onChange={handleChange} 
                                     className={errors.societyName ? 'error' : ''}
                                 />
-                                {errors.societyName && <span className="error-message">{errors.societyName}</span>}
+                                {errors.societyName && <div className="error-text">{errors.societyName}</div>}
                             </div>
                             
-                            <div className="input-group">
-                                <label>Block</label>
+                            <div className="form-row">
+                                <label>Society Address</label>
                                 <input 
                                     type="text" 
-                                    name="block" 
-                                    value={details.block} 
+                                    name="societyAddress" 
+                                    value={details.societyAddress} 
                                     onChange={handleChange} 
-                                    className={errors.block ? 'error' : ''}
+                                    className={errors.societyAddress ? 'error' : ''}
                                 />
-                                {errors.block && <span className="error-message">{errors.block}</span>}
+                                {errors.societyAddress && <div className="error-text">{errors.societyAddress}</div>}
                             </div>
                             
-                            <div className="input-group">
-                                <label>Flat No.</label>
+                            <div className="form-row">
+                                <label>City</label>
                                 <input 
                                     type="text" 
-                                    name="flatNo" 
-                                    value={details.flatNo} 
+                                    name="city" 
+                                    value={details.city} 
                                     onChange={handleChange} 
-                                    className={errors.flatNo ? 'error' : ''}
+                                    className={errors.city ? 'error' : ''}
                                 />
-                                {errors.flatNo && <span className="error-message">{errors.flatNo}</span>}
+                                {errors.city && <div className="error-text">{errors.city}</div>}
                             </div>
                             
-                            <div className="input-group">
+                            <div className="form-row">
+                                <label>District</label>
+                                <input 
+                                    type="text" 
+                                    name="district" 
+                                    value={details.district} 
+                                    onChange={handleChange} 
+                                    className={errors.district ? 'error' : ''}
+                                />
+                                {errors.district && <div className="error-text">{errors.district}</div>}
+                            </div>
+                            
+                            <div className="form-row">
                                 <label>Postal Code</label>
                                 <input 
                                     type="text" 
@@ -222,16 +229,16 @@ const ResidentDetails = () => {
                                     className={errors.postal ? 'error' : ''}
                                     maxLength="6"
                                 />
-                                {errors.postal && <span className="error-message">{errors.postal}</span>}
+                                {errors.postal && <div className="error-text">{errors.postal}</div>}
                             </div>
 
                             <button type="submit" className="button">Register</button>
-                        </div>
-                    </form>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
     );
 };
 
-export default ResidentDetails;
+export default AdminDetails;

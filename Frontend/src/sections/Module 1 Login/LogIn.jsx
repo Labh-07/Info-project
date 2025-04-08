@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './LogIn.css';
+import './Style/LogIn.css'; 
 import buildingImage from './assets/building pic for sign up page.jpg';
 import CommunityLogo from './assets/Logo.jpg';
 import { Link } from 'react-router-dom';

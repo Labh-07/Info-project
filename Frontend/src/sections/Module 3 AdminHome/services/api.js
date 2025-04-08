@@ -54,14 +54,16 @@ export const createEvent = async (eventData) => {
 
 export const updateEvent = async (id, eventData) => {
   try {
-    const response = await axios.put(`${EVENTS_ENDPOINT}/${id}`, {
+    const payload = {
       title: eventData.title,
-      start: eventData.start,
-      end: eventData.end || null,
+      start: new Date(eventData.start).toISOString(), // Ensure ISO string
+      end: eventData.end ? new Date(eventData.end).toISOString() : null,
       description: eventData.description,
       allDay: eventData.allDay,
       imageUrl: eventData.imageUrl || null
-    });
+    };
+    
+    const response = await axios.put(`${EVENTS_ENDPOINT}/${id}`, payload);
     return response.data;
   } catch (error) {
     console.error('Error updating event:', error);
