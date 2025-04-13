@@ -2,133 +2,146 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Reset and base styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-/* General body styling */
 body {
-    font-family: 'Poppins', sans-serif;
-    background: linear-gradient(135deg, #ffffff, #ffffff);
-    margin: 0;
-    padding: 0;
-    height: 100vh;
+  font-family: 'Poppins', sans-serif;
+  background: #f5f7fa;
+  height: 100vh;
+  overflow: hidden;
 }
 
+/* Main container */
 .login-page-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+  padding: 2rem; /* Added spacing around the wrapper */
 }
 
+/* New wrapper with shadow and rounded corners */
+.login-wrapper {
+  width: 100%;
+  max-width: 1200px;
+  height: 90vh;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+/* Split screen container */
+.login-container {
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+/* Image half (left side) */
+.login-image-container {
+  flex: 1;
+  min-width: 50%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.login-image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Form half (right side) */
+.login-form-container {
+  flex: 1;
+  min-width: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem 3rem;
+  background: white;
+}
+
+/* Keep all your original form styles below */
 #logo {
-    height: 100px;
+  height: 100px;
+  margin-bottom: 2rem;
 }
 
-/* Container for the entire login section */
-.login_section {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: white;
-    border-radius: 20px;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-    padding: 40px;
-    max-width: 900px;
-    width: 90%;
+.login-form-container h3 {
+  font-size: 32px;
+  color: #4A90E2;
+  font-weight: bold;
+  margin-bottom: 20px;
 }
 
-.login_img {
-    flex: 1;
-    border-radius: 15px;
-    overflow: hidden;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-    margin: 10px;
+.login-form-container label {
+  font-size: 16px;
+  color: #555;
+  margin-bottom: 5px;
+  align-self: flex-start;
+  font-weight: 500;
 }
 
-.login_img img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+.login-form-container input,
+.login-form-container select {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: 2px solid #ddd;
+  background-color: white;
+  color: black;
+  font-size: 16px;
+  outline: none;
+  margin-bottom: 1rem;
 }
 
-.login_form {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 40px;
-    background: white;
-    border-radius: 15px;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+.login-form-container input:focus,
+.login-form-container select:focus {
+  border-color: #4A90E2;
 }
 
-.login_form h3 {
-    font-size: 32px;
-    color: #4A90E2;
-    font-weight: bold;
-    margin-bottom: 20px;
+.login-form-container input[type="submit"] {
+  padding: 14px;
+  background: linear-gradient(135deg, #4A90E2, #357ABD);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s ease-in-out;
+  width: 100%;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 1rem;
 }
 
-.login_form label {
-    font-size: 16px;
-    color: #555;
-    margin-bottom: 5px;
-    align-self: flex-start;
-    font-weight: 500;
+.login-form-container input[type="submit"]:hover {
+  background: linear-gradient(135deg, #357ABD, #4A90E2);
+  transform: scale(1.05);
 }
 
-.login_form input,
-.login_form select {
-    width: 100%;
-    padding: 12px;
-    border-radius: 8px;
-    border: 2px solid #ddd;
-    background-color: white;
-    color: black;
-    font-size: 16px;
-    outline: none;
-}
-
-.login_form input:focus,
-.login_form select:focus {
-    border-color: #4A90E2;
-}
-
-/* Submit button styling */
-.login_form input[type="submit"] {
-    padding: 14px;
-    background: linear-gradient(135deg, #4A90E2, #357ABD);
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font-size: 18px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: 0.3s ease-in-out;
-    width: 100%;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
-
-.login_form input[type="submit"]:hover {
-    background: linear-gradient(135deg, #357ABD, #4A90E2);
-    transform: scale(1.05);
-}
-
-/* Signup prompt */
 .signup_prompt {
-    margin-top: 15px;
-    font-size: 14px;
-    color: #666;
+  margin-top: 15px;
+  font-size: 14px;
+  color: #666;
 }
 
 .signup_prompt a {
-    color: #4A90E2;
-    text-decoration: none;
-    font-weight: bold;
+  color: #4A90E2;
+  text-decoration: none;
+  font-weight: bold;
 }
 
 .signup_prompt a:hover {
-    text-decoration: underline;
+  text-decoration: underline;
 }

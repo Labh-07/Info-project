@@ -2,234 +2,240 @@
 @tailwind components;
 @tailwind utilities;
 
-/* General body styling */
+/* Reset and base styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 body {
-    font-family: 'Poppins', sans-serif;
-    background: linear-gradient(135deg, #ffffff, #ffffff);
-    margin: 0;
-    padding: 0;
-    height: 100vh;
+  font-family: 'Poppins', sans-serif;
+  background: #f5f7fa;
+  height: 100vh;
+  overflow: hidden;
 }
 
+/* Main container */
 .login-page-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+  padding: 2rem;
 }
 
-#logo {
-    height: 100px;
-}
-
-/* Container for the entire login section */
+/* New wrapper with shadow and rounded corners */
 .login_section {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: white;
-    border-radius: 20px;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-    padding: 40px;
-    max-width: 1000px;
-    width: 90%;
+  width: 100%;
+  max-width: 1200px;
+  height: 90vh;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
 }
 
+/* Split screen container */
+.login_section {
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+/* Image half (left side) */
 .login_img {
-    flex: 1;
-    border-radius: 15px;
-    overflow: hidden;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-    margin: 10px;
-    max-height: 600px;
+  flex: 1;
+  min-width: 50%;
+  height: 100%;
+  overflow: hidden;
 }
 
 .login_img img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
+/* Form half (right side) */
 .login_form {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 40px;
-    background: white;
-    border-radius: 15px;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-    overflow-y: auto;
-    
+  flex: 1;
+  min-width: 50%;
+  display: flex;
+  flex-direction: column;
+  padding: 2rem 3rem;
+  background: white;
+  overflow-y: auto;
+}
+
+#logo {
+  height: 100px;
+  margin-bottom: 2rem;
+  align-self: center;
 }
 
 .login_form h3 {
-    font-size: 32px;
-    color: #4A90E2;
-    font-weight: bold;
-    margin-bottom: 20px;
+  font-size: 32px;
+  color: #4A90E2;
+  font-weight: bold;
+  margin-bottom: 20px;
+  align-self: center;
 }
 
 .email-display {
-    font-size: 14px;
-    color: #666;
-    margin-bottom: 20px;
-    align-self: flex-start;
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 20px;
+  align-self: flex-start;
 }
 
 .login_form label {
-    font-size: 16px;
-    color: #555;
-    margin-bottom: 5px;
-    align-self: flex-start;
-    font-weight: 500;
+  font-size: 16px;
+  color: #555;
+  margin-bottom: 5px;
+  align-self: flex-start;
+  font-weight: 500;
 }
 
-.login_form input {
-    width: 100%;
-    padding: 12px;
-    border-radius: 8px;
-    border: 2px solid #ddd;
-    background-color: white;
-    color: black;
-    font-size: 16px;
-    outline: none;
-    margin-bottom: 15px;
+.login_form input,
+.login_form select {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: 2px solid #ddd;
+  background-color: white;
+  color: black;
+  font-size: 16px;
+  outline: none;
+  margin-bottom: 0.2rem;
 }
 
-.login_form input:focus {
-    border-color: #4A90E2;
+.login_form input:focus,
+.login_form select:focus {
+  border-color: #4A90E2;
 }
 
-/* Submit button styling */
-.login_form .button {
-    padding: 14px;
-    background: linear-gradient(135deg, #4A90E2, #357ABD);
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font-size: 18px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: 0.3s ease-in-out;
-    width: 100%;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-top: 10px;
+.button {
+  padding: 14px;
+  background: linear-gradient(135deg, #4A90E2, #357ABD);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s ease-in-out;
+  width: 100%;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 1rem;
 }
 
-.login_form .button:hover {
-    background: linear-gradient(135deg, #357ABD, #4A90E2);
-    transform: scale(1.05);
+.button:hover {
+  background: linear-gradient(135deg, #357ABD, #4A90E2);
+  transform: scale(1.05);
 }
 
-/* Success message styling */
-.success-message {
-    font-size: 16px;
-    color: #555;
-    margin: 20px 0;
-    text-align: center;
-    line-height: 1.6;
-}
-
-/* Additional button styling for success page */
-.login_form .button {
-    margin-top: 30px;
-    width: 100%;
-}
-
-/*form validation style :*/
+/* Form validation styles */
 .error {
-    border: 1px solid red;
+  border: 1px solid red !important;
 }
 
-.error-message {
-    color: red;
-    font-size: 0.8rem;
-    margin-top: 0.2rem;
-    display: block;
-    margin-bottom: 0.5rem;
-}
-
-/* Adjust spacing for error messages */
-.login_form input {
-    margin-bottom: 0.2rem;
+.error-message,
+.error-text {
+  color: red;
+  font-size: 0.8rem;
+  margin-top: 0.2rem;
+  display: block;
+  margin-bottom: 0.5rem;
 }
 
 /* Compact Form Styles */
 .compact-form {
-    width: 100%;
-  }
-  
-  .form-row {
-    margin-bottom: 0.8rem;
-  }
-  
-  .form-row label {
-    display: block;
-    margin-bottom: 0.2rem;
-  }
-  
-  .form-row input {
-    margin-bottom: 0;
-  }
-  
-  .error-text {
-    color: red;
-    font-size: 0.75rem;
-    height: 0.9rem;
-    line-height: 0.9rem;
-    margin-top: 0.1rem;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-  }
-  
-  .error {
-    border: 1px solid red !important;
-  }
-  
-  /* Reduce padding on smaller screens */
-  @media (max-height: 700px) {
-    .login_form {
-      padding: 20px;
-    }
-    
-    .form-row {
-      margin-bottom: 0.6rem;
-    }
-    
-    .button {
-      margin-top: 0.8rem;
-      padding: 10px;
-    }
-  }
+  width: 100%;
+}
 
-  /* scrollable form: */
+.form-row {
+  margin-bottom: 0.8rem;
+}
+
+.form-row label {
+  display: block;
+  margin-bottom: 0.2rem;
+}
+
+/* Scrollable form container */
 .scrollable-form-container {
-    max-height: 400px; /* Adjust this value as needed */
-    overflow-y: auto;
-    width: 100%;
-    padding-right: 10px; /* Prevents content from being hidden under scrollbar */
+  width: 100%;
+  max-height: 60vh;
+  overflow-y: auto;
+  padding-right: 10px;
+  margin-top: 1rem;
 }
 
 /* Style the scrollbar */
 .scrollable-form-container::-webkit-scrollbar {
-    width: 8px;
+  width: 8px;
 }
 
 .scrollable-form-container::-webkit-scrollbar-track {
-    background: #f1f1f1;
-    border-radius: 10px;
+  background: #f1f1f1;
+  border-radius: 10px;
 }
 
 .scrollable-form-container::-webkit-scrollbar-thumb {
-    background: #888;
-    border-radius: 10px;
+  background: #888;
+  border-radius: 10px;
 }
 
 .scrollable-form-container::-webkit-scrollbar-thumb:hover {
-    background: #555;
+  background: #555;
+}
+
+/* Responsive adjustments */
+@media (max-height: 700px) {
+  .login_form {
+    padding: 1.5rem;
+  }
+  
+  .form-row {
+    margin-bottom: 0.6rem;
+  }
+  
+  .button {
+    margin-top: 0.8rem;
+    padding: 10px;
+  }
+  
+  .scrollable-form-container {
+    max-height: 50vh;
+  }
+}
+
+
+/* Success Page Specific Styles */
+.login_form .success-message {
+  text-align: center;
+  font-size: 16px;
+  color: #555;
+  margin: 20px 0;
+  line-height: 1.6;
+  width: 100%;
+}
+
+/* Center all content in the form for success page */
+.login_form.success-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+/* Adjust button position for success page */
+.login_form .button.success-btn {
+  margin-top: 30px;
+  width: 80%; /* Slightly narrower for better visual balance */
+  max-width: 300px; /* Maximum width for larger screens */
 }

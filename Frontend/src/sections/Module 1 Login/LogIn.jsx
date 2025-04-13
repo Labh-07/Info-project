@@ -57,11 +57,12 @@ const LogIn = () => {
 
   return (
     <div className="login-page-container">
-      <div className="login_section">
-        <div className="login_img">
+      <div className="login-wrapper">
+       <div className="login-container"> 
+       <div className="login-image-container"> 
           <img src={buildingImage} alt="building" />
         </div>
-        <div className="login_form">
+        <div className="login-form-container">
           <img src={CommunityLogo} id="logo" alt="community logo" />
           <h3>Log In</h3>
           <form onSubmit={handleLogin}>
@@ -88,6 +89,7 @@ const LogIn = () => {
             Don't have an account? <Link to="/signup">Sign Up</Link>
           </p>
         </div>
+      </div>
       </div>
     </div>
   );
