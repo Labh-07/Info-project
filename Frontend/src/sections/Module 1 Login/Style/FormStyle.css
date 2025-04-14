@@ -26,7 +26,7 @@ body {
   padding: 2rem;
 }
 
-/* New wrapper with shadow and rounded corners */
+
 .login_section {
   width: 100%;
   max-width: 1200px;
@@ -224,7 +224,7 @@ body {
   width: 100%;
 }
 
-/* Center all content in the form for success page */
+
 .login_form.success-content {
   display: flex;
   flex-direction: column;
@@ -233,9 +233,9 @@ body {
   text-align: center;
 }
 
-/* Adjust button position for success page */
+
 .login_form .button.success-btn {
   margin-top: 30px;
-  width: 80%; /* Slightly narrower for better visual balance */
-  max-width: 300px; /* Maximum width for larger screens */
+  width: 80%; 
+  max-width: 300px;
 }
